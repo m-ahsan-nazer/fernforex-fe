@@ -5,7 +5,7 @@ class Footer extends Component{
     render(){
     return(
         <>
-    <footer className="pt-5  border-top bg-dark text-center container-fluid">
+    <footer className={this.props.className + " pt-5  border-top bg-dark text-center container-fluid"}>
       <div className="row">
         <div className="col">
           <Link href="/about">

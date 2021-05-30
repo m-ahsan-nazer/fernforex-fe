@@ -1,19 +1,23 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import Navbar from '/components/navbar';
 import Footer from "/components/footer";
+
 const AboutPage = ()=> {
     return(
         <>
         <Head>
             <title>About FernForex</title>
         </Head>
-        <div className="container">
+        <Navbar/>
+        <div className="container min-vh-100 mt-5">
             <h1>Our company</h1>
             <p class="lead">
-                We a peer-to-peer currency exchange facilitator in New Zealand.
+                We are a peer-to-peer currency exchange facilitator in New Zealand. Operating out of Christchurch 
+                and serving all of Aotearoa.
             </p>
         </div>
-        <Footer/>
+        <Footer className=""/>
         </>
     )
 }

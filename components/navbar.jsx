@@ -4,13 +4,13 @@ import Link from 'next/link';
 const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-sm navbar-light bg-light">
-      <Link className="navbar-brand" href="/">
-       <a>FernForex</a>
+      <Link  href="/">
+       <a className="navbar-brand pl-md-4 font-weight-bold text-primary">FernForex</a>
       </Link>
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item active">
+        <ul className="navbar-nav ml-auto pr-md-4">
+          <li className="nav-item active border border-dark p-1 rounded">
           <Link href="/login">
-          <a className="nav-link" >
+          <a className="nav-link " >
            Login
           </a>
           </Link>
