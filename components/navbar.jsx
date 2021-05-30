@@ -1,11 +1,14 @@
 import React from "react";
 import Link from 'next/link';
+import Image from 'next/image';
 
 const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-sm navbar-light bg-light">
       <Link  href="/">
-       <a className="navbar-brand pl-md-4 font-weight-bold text-primary">FernForex</a>
+       <a className="navbar-brand pl-md-4 font-weight-bold text-primary" 
+       >FernForex</a>
+        {/* style={{backgroundImage: 'url(/favicon.png)'}}>FernForex</a> */}
       </Link>
         <ul className="navbar-nav ml-auto pr-md-4">
           <li className="nav-item active border border-dark p-1 rounded">

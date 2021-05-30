@@ -17,9 +17,9 @@ export default function LandingPage() {
     <NavBar/>
           <div className="jumbotron container-fluid  bg-light text-center">
               <h1 className="display-4">
-                Exchange currency with a peer through <span class="text-primary d-block"> FernForex</span>
+                Exchange currency with a peer through <span className="text-primary d-block"> FernForex</span>
               </h1>
-          <div class="lead mt-4 mb-2 ">
+          <div className="lead mt-4 mb-2 ">
          Want to swap your New Zealand dollars to a foreign currency or vice versa? We will match 
          you with the right person who wants the opposite.
           </div>

@@ -65,7 +65,6 @@ class Form extends Component{
     }
 
     submit = (label)=>{
-        console.log(this.validate());
         return(
         <button disabled={this.validate()} className="btn btn-primary" >
             {label}
