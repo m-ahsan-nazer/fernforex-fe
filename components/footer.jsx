@@ -33,7 +33,7 @@ class Footer extends Component{
       </div>
       <div className="row pt-2 pb-2" style={{"backgroundColor": "rgba(0, 0, 0, 0.2)"}}>
         <div className="col text-light">
-        <span>&copy; 2018 - 2021 | FernForex Limited</span>
+        <span>&copy; 2016 - 2021 | &Lambda;CDM Limited</span>
         </div>
       </div>
     </footer>

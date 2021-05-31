@@ -18,7 +18,7 @@ class ForgotPasswordForm extends Form{
         return(
             <div>
                 <h5>Reset Password Form</h5>
-                <p class="text-info">Please enter your email address. You will receive a link to create a new password 
+                <p className="text-info">Please enter your email address. You will receive a link to create a new password 
                     in you email.
                 </p>
                 <form onSubmit={this.handleSubmit}>

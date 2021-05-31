@@ -25,7 +25,7 @@ class LoginForm extends Form{
         };
 
         const res = await fetch(
-            be.ep.login,
+            be.auth.login,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

@@ -12,7 +12,7 @@ const AboutPage = ()=> {
         <Navbar/>
         <div className="container min-vh-100 mt-5">
             <h1>Our company</h1>
-            <p class="lead">
+            <p className="lead">
                 We are a peer-to-peer currency exchange facilitator in New Zealand. Operating out of Christchurch 
                 and serving all of Aotearoa.
             </p>

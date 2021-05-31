@@ -13,7 +13,7 @@ const ContactusPage = ()=> {
         <NavBar/>
         <div className="container mt-5 mb-5 min-vh-100">
             <h1>Get in touch</h1>
-            <p class="lead">
+            <p className="lead">
                 Send us an email at fernforex.nz@gmail.com or use the contact form below.
             </p>
         <div className="row justify-content-center">
