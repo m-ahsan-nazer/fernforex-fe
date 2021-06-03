@@ -3,7 +3,7 @@ import Link from 'next/link';
 import LoginForm from '../components/loginform';
 import NavBarHomeOnly from '/components/navbarhomeonly';
 
-const LoginPage = ()=> {
+const LoginPage = (props)=> {
     const handleSubmit = (e) =>{
         console.log('Submitted', e);
     }

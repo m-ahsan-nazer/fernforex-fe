@@ -37,7 +37,14 @@ class LoginForm extends Form{
             this.setState({errors: {}});
             localStorage.setItem('user', JSON.stringify(userObj.user));
             localStorage.setItem('tokens', JSON.stringify(userObj.tokens));
-            this.props.router.push("/account");
+            this.props.router.push({
+                pathname: "/account", 
+                query: {
+                    ding: "dong",
+                    user: JSON.stringify(userObj.user),
+                    tokens: JSON.stringify(userObj.tokens)
+                }
+            });
         }else{
             const error = await res.json();
             this.setState({errors: error});

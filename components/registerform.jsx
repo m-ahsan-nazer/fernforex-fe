@@ -70,7 +70,18 @@ class RegisterForm extends Form{
                     const error = await emailRes.json();
                     console.log("email error: ", error);
                 }
-          setTimeout(()=>this.props.router.push("/account"), 3000);
+        //   setTimeout(()=>this.props.router.push("/account"), 3000);
+
+          setTimeout( ()=>{
+              this.props.router.push({
+                  pathname: "/account",
+                  query: {
+                      user: JSON.stringify(userObj.user),
+                      tokens: JSON.stringify(userObj.tokens)
+                    }
+                });
+            },
+            3000);
         }else{
             const error = await res.json();
             this.setState({errors: error});

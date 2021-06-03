@@ -14,6 +14,14 @@ export const be ={
     },
 
     users: {
-        users: 'http://'+serverip+"/v1/users",
+        getUser: 'http://'+serverip+"/v1/users/userId",
+        patchUser: 'http://'+serverip+"/v1/users/userId",
+    },
+
+    orders: {
+        getOrders: 'http://'+serverip+"/v1//users/orders/userId",
+        getOrder: 'http://'+serverip+"/v1//users/orders/userId/orderId",
+        patchOrder: 'http://'+serverip+"/v1/users/orders/userId/orderId",
+        matches: 'http://'+serverip+"/v1/users/orders/matches/userId/orderId",
     }
 }

@@ -2,10 +2,26 @@
 import { INSPECT_MAX_BYTES } from 'joi-browser';
 import React, {useState} from 'react';
 import NavBarUser from "/components/navbaruser";
+import User from "/beapi/users";
 
-export default function AccountPage(){
+export default function AccountPage(props){
+    // console.log("props: ", props);
+    // console.log("props.router: ", props.router);
+    // const ruser = JSON.parse(props.query.user);
+    // const rtokens= JSON.parse(props.query.tokens);
+    // console.log("props.user: ", ruser);
+    // console.log("props.tokens: ", rtokens);
+    async function meOrders(user){
+        const res = await user.getUserOrders();
+        console.log("me res: ", res);
+        const what = await res.json();
+        console.log("me what: ", what);
+    }
     const tokens = JSON.parse(localStorage.getItem('tokens'));
     const user = JSON.parse(localStorage.getItem('user'));
+
+    const me = new User(user, tokens);
+    meOrders(me);
 
     const curList = "NZD,AUD,EUR,USD,CAD,CNY,KRW".split(",");
     const [buyCur, setBuyCur] = useState(curList);
