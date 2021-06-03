@@ -50,10 +50,10 @@ class RegisterForm extends Form{
         if (res.status === 201){
             const userObj = await res.json();
             this.setState({errors: {}});
-            localStorage.setItem('user', JSON.stringify(userObj.user));
-            localStorage.setItem('tokens', JSON.stringify(userObj.tokens));
+            sessionStorage.setItem('user', JSON.stringify(userObj.user));
+            sessionStorage.setItem('tokens', JSON.stringify(userObj.tokens));
 
-            // const tokens = JSON.parse(localStorage.getItem('tokens'));
+            // const tokens = JSON.parse(sessionStorage.getItem('tokens'));
 
             const emailRes = await fetch(
                 be.auth.sendVerificationEmail,

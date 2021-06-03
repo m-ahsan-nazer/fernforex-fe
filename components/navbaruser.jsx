@@ -3,13 +3,18 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import 'font-awesome/css/font-awesome.min.css';
 
+import User from "/beapi/users";
+
 const NavBarUser = () => {
     const router = useRouter();
 
     const handleClick = async (e)=>{
-        e.preventDefault();
-        localStorage.removeItem("user");
-        localStorage.removeItem("tokens");
+      e.preventDefault();
+      const tokens = JSON.parse(sessionStorage.getItem('tokens'));
+      const res = await User.logout(tokens.refresh.token);
+      console.log("logout res: ", res);
+        sessionStorage.removeItem("user");
+        sessionStorage.removeItem("tokens");
         router.push("/login");
     }
   return (
