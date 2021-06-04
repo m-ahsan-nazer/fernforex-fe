@@ -130,6 +130,35 @@ class User {
        );
        return res;
     }
+
+    async createUserOrder(orderBody){
+       const res = await fetch(
+           be.orders.postOrder.replace("userId", this.user.id),
+           {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+this.tokens.access.token,
+                },
+                body: JSON.stringify(orderBody),
+            }
+       );
+       return res;
+    }
+
+    async findOrderMatches(orderId){
+       const res = await fetch(
+           be.orders.matches.replace("userId", this.user.id).replace("orderId", orderId),
+           {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+this.tokens.access.token,
+                },
+            }
+       );
+       return res;
+    }
 }
 
 export default User;

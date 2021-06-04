@@ -5,7 +5,7 @@ import 'font-awesome/css/font-awesome.min.css';
 
 const NavBar = () => {
   return (
-    <nav className="navbar navbar-expand-sm navbar-light bg-light">
+    <nav className="navbar sticky-top navbar-expand-sm navbar-light bg-light  border-bottom ">
       <Link  href="/">
        {/* <a className="navbar-brand pl-md-4 font-weight-bold text-primary"  */}
        {/* >FernForex</a> */}

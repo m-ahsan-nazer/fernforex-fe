@@ -19,8 +19,9 @@ export const be ={
     },
 
     orders: {
-        getOrders: 'http://'+serverip+"/v1//users/orders/userId",
-        getOrder: 'http://'+serverip+"/v1//users/orders/userId/orderId",
+        postOrder: 'http://'+serverip+"/v1/users/orders/userId",
+        getOrders: 'http://'+serverip+"/v1/users/orders/userId",
+        getOrder: 'http://'+serverip+"/v1/users/orders/userId/orderId",
         patchOrder: 'http://'+serverip+"/v1/users/orders/userId/orderId",
         matches: 'http://'+serverip+"/v1/users/orders/matches/userId/orderId",
     }
