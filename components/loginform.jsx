@@ -39,11 +39,9 @@ class LoginForm extends Form{
             sessionStorage.setItem('tokens', JSON.stringify(userObj.tokens));
             this.props.router.push({
                 pathname: "/account", 
-                query: {
-                    ding: "dong",
-                    user: JSON.stringify(userObj.user),
-                    tokens: JSON.stringify(userObj.tokens)
-                }
+                // query: {
+                //     userId: userObj.user.id,
+                // }
             });
         }else{
             const error = await res.json();

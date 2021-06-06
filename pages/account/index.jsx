@@ -1,6 +1,6 @@
-
-import { INSPECT_MAX_BYTES } from 'joi-browser';
+// import { INSPECT_MAX_BYTES } from 'joi-browser';
 import React, {useEffect, useState} from 'react';
+import Link from 'next/link';
 import NavBarUser from "/components/navbaruser";
 import User from "/beapi/users";
 import Modal from "/components/modal";
@@ -16,8 +16,14 @@ function getTableRow(order, key, wrapInButton, cancelOrder, findOrderMatches){
              <div key="match"> <button className="btn btn-info border border-dark m-2" 
                 onClick={(e)=>findOrderMatches(e, order.id)}>
                 Find Matches
-             </button></div>
-              ]
+             </button></div>,
+                <div key="manageOrder">
+                 <Link href={{pathname: "/account/manageorder",
+                              query: {orderId: order.id}}}>
+                 <a>Manage Order</a>
+                 </Link>
+                 </div>
+  ]
 
     }
     return  (<tr key={key}> 
@@ -58,7 +64,7 @@ function setOrdersHeading(displayedOrders){
                     return <h4>Past Orders</h4>
             }
 }
-export default function AccountPage(props){
+export default function AccountPage(){
     // console.log("props: ", props);
     // console.log("props.router: ", props.router);
     // const ruser = JSON.parse(props.query.user);
