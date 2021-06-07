@@ -116,8 +116,8 @@ class RegisterForm extends Form{
                     this.state.registrationInitiated && 
                     <div className="alert alert-info m-2">
                     <span>Working on it...</span>
-                    <div class="spinner-border m-2" role="status">
-                        <span class="sr-only">Working on it...</span>
+                    <div className="spinner-border m-2" role="status">
+                        <span className="sr-only">Working on it...</span>
                     </div>
                     </div>
                     }

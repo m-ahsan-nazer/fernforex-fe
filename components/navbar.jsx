@@ -14,7 +14,7 @@ const NavBar = () => {
       </Link>
         <ul className="navbar-nav ml-auto pr-md-4">
           <li className="nav-item active border border-dark p-1 rounded">
-          <Link href="/login">
+          <Link href="/login" passHref>
           <a className="nav-link " >
            Login
           </a>

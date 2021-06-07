@@ -74,14 +74,26 @@ export default function AccountPage(){
     const [displayedOrders, setDisplayedOrders] = useState('myOrders');
     const allOrders = {myOrders, myCancelledOrders, myPastOrders};
 
+    const curList = "NZD,AUD,EUR,USD,CAD,CNY,KRW".split(",");
+    const [haveCurList, setHaveCurList] = useState(curList);
+    const [haveCur, setHaveCur] = useState('NZD')
+    const [haveAmount, setHaveAmount] = useState(100);
+    const [wantCurList, setWantCurList] = useState(curList);
+    const [wantCur, setWantCur] = useState('AUD')
+    const [wantAmount, setWantAmount] = useState(100);
+    const [orderCreationMessage, setOrderCreationMessage ] = useState('');
 
     useEffect(async ()=> {
         const {orders} = await getMyOrders(me);
-                setMyOrders(await getOrderTable(orders.pendingOrders, "pending", true ));
+        setMyOrders(await getOrderTable(orders.pendingOrders, "pending", true ));
         setMyCancelledOrders(await getOrderTable(orders.cancelledOrders, "cancelled"));
         setMyPastOrders(await getOrderTable(orders.pastOrders, "past"));
+
+        if (orderCreationMessage !== ''){
+            setTimeout( ()=>setOrderCreationMessage(""), 4000);
+        }
     },
-    []
+    [orderCreationMessage]
     );
 
     async function paginate(){
@@ -92,14 +104,6 @@ export default function AccountPage(){
             </ul></nav>)
     }
 
-    const curList = "NZD,AUD,EUR,USD,CAD,CNY,KRW".split(",");
-    const [haveCurList, setHaveCurList] = useState(curList);
-    const [haveCur, setHaveCur] = useState('NZD')
-    const [haveAmount, setHaveAmount] = useState(100);
-    const [wantCurList, setWantCurList] = useState(curList);
-    const [wantCur, setWantCur] = useState('AUD')
-    const [wantAmount, setWantAmount] = useState(100);
-    const [orderCreationMessage, setOrderCreationMessage ] = useState('');
     function getNewOrderForm(){
         const haveCard = <div className="card-body  bg-light border rounded border-secondary mb-4 " key="haveCard">
             <div className="card-title"><h5>I have</h5></div>
@@ -168,10 +172,9 @@ export default function AccountPage(){
         const res = await me.createUserOrder(orderBody);
         if (res.status == 201){
             const resData = await res.json();
-            setOrderCreationMessage(<div className="alert alert-danger">Your order was created</div>);
-            // setTimeout(
-            // setOrderCreationMessage(""), 3000
-            // )
+            setOrderCreationMessage(<div className="alert alert-danger mt-2 ">Your order was created</div>
+            // ,()=>setTimeout( setOrderCreationMessage(""), 3000)
+            );
         console.log("Order creation was: ", resData);
         }
     }
