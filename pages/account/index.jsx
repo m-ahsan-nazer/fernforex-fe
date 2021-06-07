@@ -1,5 +1,6 @@
 // import { INSPECT_MAX_BYTES } from 'joi-browser';
 import React, {useEffect, useState} from 'react';
+import Head from 'next/head';
 import Link from 'next/link';
 import NavBarUser from "/components/navbaruser";
 import User from "/beapi/users";
@@ -9,19 +10,17 @@ function getTableRow(order, key, wrapInButton, cancelOrder, findOrderMatches){
     let id = order.id;
     if (wrapInButton){
         id =  [
-             <div key="cancel"><button className="btn btn-danger border border-dark m-2" 
-                onClick={(e )=>cancelOrder(e, order)}>
-                Cancel Order
-             </button></div>,
-             <div key="match"> <button className="btn btn-info border border-dark m-2" 
-                onClick={(e)=>findOrderMatches(e, order.id)}>
-                Find Matches
-             </button></div>,
                 <div key="manageOrder">
                  <Link href={{pathname: "/account/manageorder",
-                              query: {orderId: order.id}}}>
+                              query: {...order}
+                            //   query: {orderId: order.id,
+                                    //   want: order.want,
+                                    //   wantAmount: order.wantAmount,
+                                    //   have: order.have,
+                                    //   haveAmount: order.haveAmount}
+                                }}>
                  <a>Manage Order</a>
-                 </Link>
+                 </Link> 
                  </div>
   ]
 
@@ -216,6 +215,11 @@ export default function AccountPage(){
 
     return(
         <>
+        <Head>
+            <title>Account</title>
+            <link rel="icon" href="/favicon.ico"/>
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        </Head>
         <NavBarUser/>
         <div className="container mt-5 mb-5">
         <h2>Profile</h2>
