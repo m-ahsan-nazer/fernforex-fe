@@ -6,18 +6,13 @@ import NavBarUser from "/components/navbaruser";
 import User from "/beapi/users";
 import Modal from "/components/modal";
 
-function getTableRow(order, key, wrapInButton, cancelOrder, findOrderMatches){
+function getTableRow(order, key, wrapInButton ){
     let id = order.id;
     if (wrapInButton){
         id =  [
                 <div key="manageOrder">
                  <Link href={{pathname: "/account/manageorder",
                               query: {...order}
-                            //   query: {orderId: order.id,
-                                    //   want: order.want,
-                                    //   wantAmount: order.wantAmount,
-                                    //   have: order.have,
-                                    //   haveAmount: order.haveAmount}
                                 }}>
                  <a>Manage Order</a>
                  </Link> 
@@ -34,11 +29,11 @@ function getTableRow(order, key, wrapInButton, cancelOrder, findOrderMatches){
     </tr>)
 }
 
-async function getOrderTable(orders, tableName, wrapInButton, cancelOrder, findOrderMatches){
+async function getOrderTable(orders, tableName, wrapInButton ){
         let i=0;
         const ordersTable = orders.map(order => {
             i+=1;
-            return getTableRow(order, i, wrapInButton, cancelOrder, findOrderMatches)
+            return getTableRow(order, i, wrapInButton )
         });
         return(<table className="table table-hover table-sm" key={tableName}>
             <thead><tr key="headRow">
@@ -64,12 +59,6 @@ function setOrdersHeading(displayedOrders){
             }
 }
 export default function AccountPage(){
-    // console.log("props: ", props);
-    // console.log("props.router: ", props.router);
-    // const ruser = JSON.parse(props.query.user);
-    // const rtokens= JSON.parse(props.query.tokens);
-    // console.log("props.user: ", ruser);
-    // console.log("props.tokens: ", rtokens);
     async function getMyOrders(user){
         const res = await user.getUserOrders();
         const resData = await res.json();
@@ -85,26 +74,10 @@ export default function AccountPage(){
     const [displayedOrders, setDisplayedOrders] = useState('myOrders');
     const allOrders = {myOrders, myCancelledOrders, myPastOrders};
 
-    async function cancelOrder(e, order){
-        e.preventDefault();
-        console.log("Cancelling order");
-        const orderBody = {status: -1, have: order.have, haveAmount: order.haveAmount,
-        want: order.want, wantAmount: order.wantAmount};
-        const res = await me.updateUserOrder(order.id, orderBody);
-        console.log("res: ", res);
-        if (res.status == 200){
-            const resData = await res.json();
-            console.log(<div className="alert alert-danger">Your order with id={order.id} was cancelled</div>);
-            // setTimeout(
-            // setOrderCreationMessage(""), 3000
-            // )
-        console.log(`Order was cancelled: `, resData);
-        }
-    };
 
     useEffect(async ()=> {
         const {orders} = await getMyOrders(me);
-                setMyOrders(await getOrderTable(orders.pendingOrders, "pending", true, cancelOrder, findOrderMatches));
+                setMyOrders(await getOrderTable(orders.pendingOrders, "pending", true ));
         setMyCancelledOrders(await getOrderTable(orders.cancelledOrders, "cancelled"));
         setMyPastOrders(await getOrderTable(orders.pastOrders, "past"));
     },
@@ -128,7 +101,7 @@ export default function AccountPage(){
     const [wantAmount, setWantAmount] = useState(100);
     const [orderCreationMessage, setOrderCreationMessage ] = useState('');
     function getNewOrderForm(){
-        const haveCard = <div className="card-body col col-md-6 bg-light border rounded border-dark mb-4" key="haveCard">
+        const haveCard = <div className="card-body  bg-light border rounded border-secondary mb-4 " key="haveCard">
             <div className="card-title"><h5>I have</h5></div>
             <div className="input-group">
                 <input value={haveAmount} 
@@ -152,7 +125,7 @@ export default function AccountPage(){
             </select>
             </div>
             </div>
-        const wantCard = <div className="card-body col col-md-6 bg-light border rounded border-dark mb-4" key="wantCard">
+        const wantCard = <div className="card-body bg-light border rounded border-secondary mb-4" key="wantCard">
             <div className="card-title"><h5>I want </h5></div>
             <div className="input-group">
                 <input value={wantAmount} 
@@ -176,7 +149,7 @@ export default function AccountPage(){
             </select>
             </div>
             </div>
-        return(<div key="newOrderForm" className="bg-white border border-dark rounded m-2 p-2 ">
+        return(<div key="newOrderForm" className="bg-white border border-dark rounded m-2 p-2 col col-md-6 ">
             {haveCard}
             {wantCard}
             <div><button className="btn btn-info border border-dark" 
@@ -200,16 +173,6 @@ export default function AccountPage(){
             // setOrderCreationMessage(""), 3000
             // )
         console.log("Order creation was: ", resData);
-        }
-    }
-
-    async function findOrderMatches(e, orderId){
-        e.preventDefault(); 
-        const res = await me.findOrderMatches(orderId);
-        if (res.status == 200){
-            const resData = await res.json();
-            console.log("res findOrderMatches: ", resData);
-            setOrderCreationMessage(<div className="alert alert-danger">Your order was created</div>);
         }
     }
 
@@ -247,9 +210,6 @@ export default function AccountPage(){
                <li className="page-item"><a className="page-link" href="#" onClick={(e)=>{e.preventDefault(); setDisplayedOrders("myPastOrders");
                }}>Past Orders</a></li>
         </ul></nav>
-        {/* <div id="pendingOrders"> <h4>Pending Orders</h4> { myOrders } </div> */}
-        {/* <div id="cancelledOrders"> <h4>Cancelled Orders</h4> { myCancelledOrders } </div> */}
-        {/* <div id="pastOrders"><h4>Past Orders</h4>{ myPastOrders } </div> */}
         <div id="displayedOrders">
             {setOrdersHeading(displayedOrders)}
             {allOrders[displayedOrders]}
