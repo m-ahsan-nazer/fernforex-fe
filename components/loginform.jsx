@@ -4,6 +4,7 @@ import {withRouter} from 'next/router';
 import Form from "./form";
 import Input from "./input";
 import {be} from "/config/config.js";
+import {saveUserInfoToStorage} from "/beapi/users";
 
 class LoginForm extends Form{
     constructor(){
@@ -35,8 +36,7 @@ class LoginForm extends Form{
         if (res.status === 200){
             const userObj = await res.json();
             this.setState({errors: {}});
-            sessionStorage.setItem('user', JSON.stringify(userObj.user));
-            sessionStorage.setItem('tokens', JSON.stringify(userObj.tokens));
+            saveUserInfoToStorage(userObj.user, userObj.tokens);
             this.props.router.push({
                 pathname: "/account", 
                 // query: {

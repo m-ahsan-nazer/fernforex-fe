@@ -1,18 +1,29 @@
 import {be} from "/config/config.js";
 
+/*
+Only needs to be changed here when swapping between localStorage-sessionStorage
+*/
+const storage = sessionStorage;
+
 function saveUserInfoToStorage(user, tokens){
-    /*
-    Only needs to be changed here when swapping between localStorage-sessionStorage
-    */
-    sessionStorage.setItem('user', JSON.stringify(user));
-    sessionStorage.setItem('tokens', JSON.stringify(tokens));
+    storage.setItem('user', JSON.stringify(user));
+    storage.setItem('tokens', JSON.stringify(tokens));
+
+    return
 }
 
 function readUserInfoFromStorage( ){
-    const tokens = JSON.parse(sessionStorage.getItem('tokens'));
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    const tokens = JSON.parse(storage.getItem('tokens'));
+    const user = JSON.parse(storage.getItem('user'));
 
     return {user: user, tokens: tokens};
+}
+
+function deleteUserInfoFromStorage( ){
+    storage.removeItem('tokens');
+    storage.removeItem('user');
+
+    return 
 }
 
 class User {
@@ -176,5 +187,5 @@ class User {
     }
 }
 
-export {saveUserInfoToStorage, readUserInfoFromStorage};
+export {saveUserInfoToStorage, readUserInfoFromStorage, deleteUserInfoFromStorage};
 export default User;
