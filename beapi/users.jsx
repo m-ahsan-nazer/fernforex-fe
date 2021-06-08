@@ -85,6 +85,23 @@ class User {
         return res;
     }
 
+    static async getResetPasswordEmail(email){
+        const body = {
+            email: email,
+        };
+        
+        const res = await fetch(
+            be.auth.forgotPassword,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            }
+        );
+
+        return res;
+    }
+
     async getUserInfo(){
         const res = await fetch(
             be.users.getUser.replace("userId", this.user.id),

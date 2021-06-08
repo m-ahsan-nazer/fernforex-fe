@@ -11,7 +11,6 @@ const NavBarUser = () => {
     const handleClick = async (e)=>{
       e.preventDefault();
       const {tokens} = readUserInfoFromStorage();
-      const tokens = JSON.parse(sessionStorage.getItem('tokens'));
       const res = await User.logout(tokens.refresh.token);
       console.log("logout result: ", res);
       //delete user, tokens info
