@@ -3,12 +3,10 @@ import Link from 'next/link';
 import Head from 'next/head';
 import router from 'next/router';
 import NavBarUser from "/components/navbaruser";
-import User, {readUserInfoFromStorage, saveUserInfoToStorage} from "/beapi/users";
+import User, {readUserInfoFromStorage} from "/beapi/users";
 
 async function cancelOrder(orderId, user, setActionMessage, setDisabledButtons){
     console.log("Cancelling order");
-    // const orderBody = {status: -1, have: order.have, haveAmount: order.haveAmount,
-    // want: order.want, wantAmount: order.wantAmount};
     const orderBody = {status: -1};
     const res = await user.updateUserOrder(orderId, orderBody);
     console.log("res: ", res);

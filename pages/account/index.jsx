@@ -1,10 +1,9 @@
-// import { INSPECT_MAX_BYTES } from 'joi-browser';
 import React, {useEffect, useState} from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import 'font-awesome/css/font-awesome.min.css';
 import NavBarUser from "/components/navbaruser";
-import User from "/beapi/users";
-import Modal from "/components/modal";
+import User, {readUserInfoFromStorage } from "/beapi/users";
 
 function getTableRow(order, key, wrapInButton ){
     let id = order.id;
@@ -64,9 +63,8 @@ export default function AccountPage(){
         const resData = await res.json();
         return resData;
     }
-    const tokens = JSON.parse(sessionStorage.getItem('tokens'));
-    const user = JSON.parse(sessionStorage.getItem('user'));
 
+    const {user, tokens} = readUserInfoFromStorage();
     const me = new User(user, tokens);
     const [myOrders, setMyOrders] = useState('');
     const [myCancelledOrders, setMyCancelledOrders] = useState('');
@@ -156,7 +154,7 @@ export default function AccountPage(){
         return(<div key="newOrderForm" className="bg-white border border-dark rounded m-2 p-2 col col-md-6 ">
             {haveCard}
             {wantCard}
-            <div><button className="btn btn-info border border-dark" 
+            <div><button className="btn btn-info border border-dark"  disabled={!user.isEmailVerified }
             onClick={(e)=>{
                 e.preventDefault();
                 createOrder(haveCur, haveAmount, wantCur, wantAmount);
@@ -173,7 +171,6 @@ export default function AccountPage(){
         if (res.status == 201){
             const resData = await res.json();
             setOrderCreationMessage(<div className="alert alert-danger mt-2 ">Your order was created</div>
-            // ,()=>setTimeout( setOrderCreationMessage(""), 3000)
             );
         console.log("Order creation was: ", resData);
         }
@@ -190,9 +187,13 @@ export default function AccountPage(){
         <div className="container mt-5 mb-5">
         <h2>Profile</h2>
         <div className="container bg-light mt-4 mb-4 p-2">
-        <p>My username is {user.name}</p>
-        <p>My email is {user.email}</p>
-        <p>My rating is ...</p>
+        <p><b>User name</b>: {user.name}</p>
+        <p><b>Email</b>: {user.email}</p>
+        <p><b>Rating</b>:  
+            &nbsp;<i className="fa fa-smile-o fa-lg text-success"  aria-hidden="true"> 0 </i>
+            &nbsp;<i className="fa fa-meh-o fa-lg text-primary"  aria-hidden="true"> 0 </i>
+            &nbsp;<i className="fa fa-frown-o fa-lg text-danger"  aria-hidden="true"> 0</i>
+        </p>
         </div>
         <h2>Create a new order</h2>
         <div className="container mb-4" id="newOrder">

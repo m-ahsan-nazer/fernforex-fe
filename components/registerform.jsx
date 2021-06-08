@@ -4,6 +4,7 @@ import {withRouter} from 'next/router';
 import Form from "./form";
 import Input from "./input";
 import {be} from "/config/config.js";
+import {saveUserInfoToStorage} from "/beapi/users";
 
 class RegisterForm extends Form{
     constructor(){
@@ -50,10 +51,7 @@ class RegisterForm extends Form{
         if (res.status === 201){
             const userObj = await res.json();
             this.setState({errors: {}});
-            sessionStorage.setItem('user', JSON.stringify(userObj.user));
-            sessionStorage.setItem('tokens', JSON.stringify(userObj.tokens));
-
-            // const tokens = JSON.parse(sessionStorage.getItem('tokens'));
+            saveUserInfoToStorage(userObj.user, userObj.tokens);
 
             const emailRes = await fetch(
                 be.auth.sendVerificationEmail,
@@ -70,15 +68,14 @@ class RegisterForm extends Form{
                     const error = await emailRes.json();
                     console.log("email error: ", error);
                 }
-        //   setTimeout(()=>this.props.router.push("/account"), 3000);
 
           setTimeout( ()=>{
               this.props.router.push({
                   pathname: "/account",
-                  query: {
-                      user: JSON.stringify(userObj.user),
-                      tokens: JSON.stringify(userObj.tokens)
-                    }
+                //   query: {
+                    //   user: JSON.stringify(userObj.user),
+                    //   tokens: JSON.stringify(userObj.tokens)
+                    // }
                 });
             },
             3000);
