@@ -10,7 +10,7 @@ export const be ={
         register: 'http://'+serverip+"/v1/auth/register",
         resetPassword: 'http://'+serverip+"/v1/auth/reset-password",
         sendVerificationEmail: 'http://'+serverip+"/v1/auth/send-verification-email",
-        verifyEmail: 'http://'+serverip+"/v1/auth/verify-email",
+        verifyEmail: 'http://'+serverip+"/v1/auth/verify-email?token=tokenValue",
     },
 
     users: {

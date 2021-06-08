@@ -2,8 +2,10 @@ import {be} from "/config/config.js";
 
 /*
 Only needs to be changed here when swapping between localStorage-sessionStorage
+If this get's executed on the server side then it will break hence the check
 */
-const storage = sessionStorage;
+// const storage = sessionStorage;
+const storage = (typeof localStorage === 'undefined') ? null : localStorage;
 
 function saveUserInfoToStorage(user, tokens){
     storage.setItem('user', JSON.stringify(user));
@@ -96,6 +98,18 @@ class User {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
+            }
+        );
+
+        return res;
+    }
+
+    static async verifyEmail(token){
+        const res = await fetch(
+            be.auth.verifyEmail.replace("tokenValue", token),
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
             }
         );
 

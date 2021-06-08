@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
+// import { useRouter } from 'next/router';
 import router from 'next/router';
 import NavBarUser from "/components/navbaruser";
 import User, {readUserInfoFromStorage} from "/beapi/users";
@@ -162,6 +163,8 @@ export default function ManageOrderPage(){
     const me = new User(user, tokens);
     const orderId = router.query.id;
     const myOrder = {...router.query};
+    // const router = useRouter();
+    // const token = router.query.token;
     const [myOrderTable, setMyOrderTable] = useState('');
     const [matchOrderTable, setMatchOrderTable] = useState('');
     const [matchedOrder, setMatchedOrder] = useState('');
