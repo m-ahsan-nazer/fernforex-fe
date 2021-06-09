@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import 'font-awesome/css/font-awesome.min.css';
 import NavBarUser from "/components/navbaruser";
 import User, {readUserInfoFromStorage } from "/beapi/users";
@@ -57,7 +58,9 @@ function setOrdersHeading(displayedOrders){
                     return <h4>Past Orders</h4>
             }
 }
-export default function AccountPage(){
+
+// export default function AccountPage(){
+function AccountPage(){
     async function getMyOrders(user){
         const res = await user.getUserOrders();
         const resData = await res.json();
@@ -226,3 +229,5 @@ export default function AccountPage(){
         </>
     )
 }
+
+export default dynamic(()=> Promise.resolve(AccountPage), {ssr: false});

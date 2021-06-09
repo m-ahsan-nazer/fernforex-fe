@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 // import { useRouter } from 'next/router';
 import router from 'next/router';
 import NavBarUser from "/components/navbaruser";
@@ -158,7 +159,8 @@ async function getOrderTable(order, tableName, buttons ){
             </table>
         )
 }
-export default function ManageOrderPage(){
+// export default function ManageOrderPage(){
+function ManageOrderPage(){
     const {user, tokens} = readUserInfoFromStorage();
     const me = new User(user, tokens);
     const orderId = router.query.id;
@@ -216,3 +218,6 @@ export default function ManageOrderPage(){
         </>
     );
 }
+
+
+export default dynamic(()=> Promise.resolve(ManageOrderPage), {ssr: false});

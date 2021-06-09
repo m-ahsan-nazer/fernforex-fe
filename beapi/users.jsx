@@ -2,28 +2,55 @@ import {be} from "/config/config.js";
 
 /*
 Only needs to be changed here when swapping between localStorage-sessionStorage
-If this get's executed on the server side then it will break hence the check
+If this get's executed on the server side then it will break hence the check.
+R/W operations will work as long as they are on pages where they are triggered 
+after rendering. Have to disable server side rendering otherwise.
 */
-// const storage = sessionStorage;
-const storage = (typeof localStorage === 'undefined') ? null : localStorage;
+const storage = 'localStorage';
 
 function saveUserInfoToStorage(user, tokens){
-    storage.setItem('user', JSON.stringify(user));
-    storage.setItem('tokens', JSON.stringify(tokens));
+    switch(storage){
+        case 'localStorage':
+            window.localStorage.setItem('user', JSON.stringify(user));
+            window.localStorage.setItem('tokens', JSON.stringify(tokens));
+            break;
+
+        case 'sessionStorage':
+            window.sessionStorage.setItem('user', JSON.stringify(user));
+            window.sessionStorage.setItem('tokens', JSON.stringify(tokens));
+            break;
+    }
 
     return
 }
 
 function readUserInfoFromStorage( ){
-    const tokens = JSON.parse(storage.getItem('tokens'));
-    const user = JSON.parse(storage.getItem('user'));
+    let tokens;
+    let user; 
+    switch(storage){
+        case 'localStorage':
+            tokens = JSON.parse(window.localStorage.getItem('tokens'));
+            user = JSON.parse(window.localStorage.getItem('user'));
+            return {user: user, tokens: tokens};
 
-    return {user: user, tokens: tokens};
+        case 'sessionStorage':
+            tokens = JSON.parse(window.sessionStorage.getItem('tokens'));
+            user = JSON.parse(window.sessionStorage.getItem('user'));
+            return {user: user, tokens: tokens};
+    }
 }
 
 function deleteUserInfoFromStorage( ){
-    storage.removeItem('tokens');
-    storage.removeItem('user');
+    switch(storage){
+        case 'localStorage':
+            window.localStorage.removeItem('tokens');
+            window.localStorage.removeItem('user');
+            break;
+        case 'sessionStorage':
+            window.sessionStorage.removeItem('tokens');
+            window.sessionStorage.removeItem('user');
+            break;
+    }
 
     return 
 }
