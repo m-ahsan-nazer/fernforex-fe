@@ -1,23 +1,19 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import ResetPasswordForm from '../components/resetpasswordform';
+import ForgotPasswordForm from '../components/forgotpasswordform';
 import NavBarHomeOnly from '/components/navbarhomeonly';
 
-const ResetPasswordPage = ()=> {
-    const handleSubmit = (e) =>{
-        console.log('Submitted', e);
-    }
+const ForgotPasswordPage = ()=> {
     return(
         <>
         <Head>
-            <title>Reset Password</title>
+            <title>Forgot Password</title>
         </Head>
         <NavBarHomeOnly/>
         <div className="container mt-5">
-
         <div className="row justify-content-center">
         <div className="bg-light p-2 col- col-md-6 m-2">
-        <ResetPasswordForm/>
+        <ForgotPasswordForm/>
         </div>
         </div>
         </div>
@@ -25,4 +21,4 @@ const ResetPasswordPage = ()=> {
     )
 }
 
-export default ResetPasswordPage;
+export default ForgotPasswordPage;

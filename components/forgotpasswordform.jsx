@@ -13,6 +13,7 @@ class ForgotPasswordForm extends Form{
             email: Joi.string().email({ minDomainAtoms: 2 }),
         };
         this.schema = schema;
+        this.state.success= false;
     }
 
     handleSubmit = async (e)=>{
@@ -20,16 +21,14 @@ class ForgotPasswordForm extends Form{
         try{
             const email =  e.currentTarget.email.value;
             const res = await User.getResetPasswordEmail(email);
-            console.log("forgotPassword res: ", res);
             if (res.status === 204){
-                const resJson = await res.json();
-                this.setState({errors: {}});
+                // const resJson = await res.json();
+                this.setState({errors: {}, success: true});
             }else if(res.status === 404 || res.status === 400){
                 //404 non-existent email
                 //400 invalid email
                 const error = await res.json();
-                console.log("err: ", error);
-                this.setState({errors: error});
+                this.setState({errors: error, success: false});
             }
         }catch(err){
             console.log("any other errors: ", err);
@@ -47,7 +46,8 @@ class ForgotPasswordForm extends Form{
                 <form onSubmit={this.handleSubmit}>
                     <Input value={this.state.data.email} onChange={this.handleChange} name="email" label={"Email"} autoFocus={true}
                            error={this.state.errors.email}/>
-                    {this.submit("Get Email To Reset Password")}
+                    {this.submit("Get email to reset password")}
+                    {this.state.success && <div className="alert alert-success m-2">Done! Please check your inbox.</div> }
                     {this.state.errors.message && <div className="alert alert-danger m-2">{this.state.errors.message}</div> }
                 </form>
             </div>

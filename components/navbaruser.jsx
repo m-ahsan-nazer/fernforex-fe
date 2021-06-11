@@ -12,7 +12,6 @@ const NavBarUser = () => {
       e.preventDefault();
       const {tokens} = readUserInfoFromStorage();
       const res = await User.logout(tokens.refresh.token);
-      console.log("logout result: ", res);
       //delete user, tokens info
       deleteUserInfoFromStorage(); 
       router.push("/login");

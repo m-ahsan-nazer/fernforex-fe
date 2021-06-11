@@ -4,9 +4,6 @@ import LoginForm from '../components/loginform';
 import NavBarHomeOnly from '/components/navbarhomeonly';
 
 const LoginPage = (props)=> {
-    const handleSubmit = (e) =>{
-        console.log('Submitted', e);
-    }
     return(
         <>
         <Head>
@@ -19,8 +16,8 @@ const LoginPage = (props)=> {
         <div className="bg-light p-2 col- col-md-6 m-2">
         <LoginForm/>
         <div >
-        <Link href="/forgotpassword" className="">
-          <a>Forget password</a>
+        <Link href="/forgot-password" className="">
+          <a>Forgot password</a>
         </Link>
         </div>
         </div>

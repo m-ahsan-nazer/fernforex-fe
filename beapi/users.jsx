@@ -114,6 +114,26 @@ class User {
         return res;
     }
 
+    static async contact(email, message, messageTitle, name){
+        const body = {
+            email: email,
+            message: message,
+            messageTitle: messageTitle,
+            name: name,
+        };
+        
+        const res = await fetch(
+            be.auth.contact,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            }
+        );
+
+        return res;
+    }
+
     static async getResetPasswordEmail(email){
         const body = {
             email: email,
@@ -121,6 +141,23 @@ class User {
         
         const res = await fetch(
             be.auth.forgotPassword,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            }
+        );
+
+        return res;
+    }
+
+    static async resetPassword(password, token){
+        const body = {
+            password: password,
+        };
+        
+        const res = await fetch(
+            be.auth.resetPassword.replace("tokenValue", token),
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

@@ -21,7 +21,7 @@ class RegisterForm extends Form{
             //     'any.required': `"password" is required`
             // }),
             password: Joi.string().min(8).max(30).required(),
-            passwordConfirmation: Joi.string().required(),
+            passwordConfirmation: Joi.string().required().valid(Joi.ref('password')),
             // passwordConfirmation: Joi.any().valid(Joi.ref('password'))
             // .required().options(
                 // { language: { any: { allowOnly: 'must match password' } } }),
@@ -93,7 +93,7 @@ class RegisterForm extends Form{
                 <form onSubmit={this.handleSubmit}>
                     <Input value={this.state.data.username} onChange={this.handleChange} name="username" label={"Username"} autoFocus={true}
                            error={this.state.errors.username}/>
-                    <Input value={this.state.data.email} onChange={this.handleChange} name="email" label={"Email"} autoFocus={true}
+                    <Input value={this.state.data.email} onChange={this.handleChange} name="email" label={"Email"} autoFocus={false}
                            error={this.state.errors.email}/>
                     <Input value={this.state.data.password} onChange={this.handleChange} name="password"
                            label={"Password"} type="password"

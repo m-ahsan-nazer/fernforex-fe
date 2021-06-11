@@ -4,9 +4,6 @@ import RegisterForm from '../components/registerform';
 import NavBarHomeOnly from '/components/navbarhomeonly';
 
 const SignupPage = ()=> {
-    const handleSubmit = (e) =>{
-        console.log('Submitted', e);
-    }
     return(
         <>
         <Head>

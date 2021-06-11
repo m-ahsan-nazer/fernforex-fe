@@ -49,6 +49,7 @@ export default function LandingPage() {
          width="100%"
          height="100%"
          layout="responsive"
+         unoptimized="true"
          />
         </div>
       </div>
@@ -63,6 +64,7 @@ export default function LandingPage() {
          width="100%"
          height="100%"
          layout="responsive"
+         unoptimized="true"
          />
         </div>
         <div className="col my-auto">
@@ -94,6 +96,7 @@ export default function LandingPage() {
          width="100%"
          height="100%"
          layout="responsive"
+         unoptimized="true"
          />
         </div>
       </div>
