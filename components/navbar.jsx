@@ -13,9 +13,9 @@ const NavBar = () => {
         {/* style={{backgroundImage: 'url(/favicon.png)'}}>FernForex</a> */}
       </Link>
         <ul className="navbar-nav ml-auto pr-md-4">
-          <li className="nav-item active border border-dark p-1 rounded">
+          <li className="nav-item active border border-dark rounded">
           <Link href="/login" passHref>
-          <a className="nav-link " >
+          <a className="btn btn-light nav-link" >
            Login
           </a>
           </Link>
