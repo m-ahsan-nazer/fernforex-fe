@@ -63,6 +63,7 @@ class CreateOrderForm extends Component{
             if (res.status == 201){
                 //returns order body
                 // const resData = await res.json();
+                this.props.setOrderCreationMessage(<div className="alert alert-success mt-2 ">Your order was created</div>);
                 this.setState({orderCreationMessage: <div className="alert alert-success mt-2 ">Your order was created</div>});
             }
         }
@@ -120,7 +121,7 @@ function getTableRow(order, key, wrapInButton ){
         id =  [
                 <div key="manageOrder">
                  <Link href={{pathname: "/account/manageorder",
-                              query: {...order}
+                              query: {id: order.id}
                                 }}>
                  <a>Manage Order</a>
                  </Link> 
@@ -178,6 +179,7 @@ function AccountPage(){
     const {user, tokens} = readUserInfoFromStorage();
     const me = new User(user, tokens);
     const [myOrders, setMyOrders] = useState('');
+    const [orderCreationMessage, setOrderCreationMessage] = useState('');
     const [myCancelledOrders, setMyCancelledOrders] = useState('');
     const [myPastOrders, setMyPastOrders] = useState('');
     const [displayedOrders, setDisplayedOrders] = useState('myOrders');
@@ -190,7 +192,7 @@ function AccountPage(){
         setMyPastOrders(await getOrderTable(orders.pastOrders, "past"));
 
     },
-    []
+    [orderCreationMessage]
     );
 
     return(
@@ -220,7 +222,7 @@ function AccountPage(){
             </div>
             }
         </div>
-        <CreateOrderForm user={me}/>
+        <CreateOrderForm user={me} setOrderCreationMessage={setOrderCreationMessage}/>
         <h2>My transactions</h2>
         <div className="container mb-4" id="transactions">
         <nav key="orderStatusPages"><ul className="pagination">

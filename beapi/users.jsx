@@ -180,6 +180,29 @@ class User {
         return res;
     }
 
+    async refreshToken(){
+        // const {user, tokens } = readUserInfoFromStorage();
+        const body = {
+            "refreshToken": this.tokens.refresh.token,
+        };
+        try{
+            const res = await fetch(
+                be.auth.refresh,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', },
+                    body: JSON.stringify(body),
+                }
+            );
+            if (res.status === 200){
+                const tokens = await res.json();
+                this.tokens = tokens;
+                saveUserInfoToStorage(this.user, this.tokens);
+            }
+        }catch(err){
+            console.log("unexpected errors.");
+        }
+    }
     async getUserInfo(){
         const res = await fetch(
             be.users.getUser.replace("userId", this.user.id),
@@ -195,6 +218,10 @@ class User {
     }
 
     async updateUserInfo(body){
+        const accessEndTime = new Date(this.tokens.access.expires);
+        if (Date.now() > accessEndTime.getTime()){
+            await this.refreshToken();
+        }
         const res = await fetch(
             be.users.patchUser.replace("userId", this.user.id),
             {
@@ -210,6 +237,10 @@ class User {
     }
 
     async getUserOrders(){
+        const accessEndTime = new Date(this.tokens.access.expires);
+        if (Date.now() > accessEndTime.getTime()){
+            await this.refreshToken();
+        }
        const res = await fetch(
            be.orders.getOrders.replace("userId", this.user.id),
            {
@@ -224,6 +255,10 @@ class User {
     }
 
     async getUserOrder(orderId){
+        const accessEndTime = new Date(this.tokens.access.expires);
+        if (Date.now() > accessEndTime.getTime()){
+            await this.refreshToken();
+        }
        const res = await fetch(
            be.orders.getOrder.replace("userId", this.user.id).replace("orderId", orderId),
            {
@@ -238,6 +273,10 @@ class User {
     }
 
     async updateUserOrder(orderId, orderBody){
+        const accessEndTime = new Date(this.tokens.access.expires);
+        if (Date.now() > accessEndTime.getTime()){
+            await this.refreshToken();
+        }
        const res = await fetch(
            be.orders.patchOrder.replace("userId", this.user.id).replace("orderId", orderId),
            {
@@ -253,6 +292,10 @@ class User {
     }
 
     async createUserOrder(orderBody){
+        const accessEndTime = new Date(this.tokens.access.expires);
+        if (Date.now() > accessEndTime.getTime()){
+            await this.refreshToken();
+        }
        const res = await fetch(
            be.orders.postOrder.replace("userId", this.user.id),
            {
@@ -268,6 +311,10 @@ class User {
     }
 
     async findOrderMatches(orderId){
+        const accessEndTime = new Date(this.tokens.access.expires);
+        if (Date.now() > accessEndTime.getTime()){
+            await this.refreshToken();
+        }
        const res = await fetch(
            be.orders.matches.replace("userId", this.user.id).replace("orderId", orderId),
            {

@@ -2,21 +2,17 @@ import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-// import { useRouter } from 'next/router';
-import router from 'next/router';
+import router, { useRouter } from 'next/router';
 import NavBarUser from "/components/navbaruser";
 import User, {readUserInfoFromStorage} from "/beapi/users";
 
 async function cancelOrder(orderId, user, setActionMessage, setDisabledButtons){
-    console.log("Cancelling order");
     const orderBody = {status: -1};
     const res = await user.updateUserOrder(orderId, orderBody);
-    console.log("res: ", res);
     if (res.status == 200){
         const resData = await res.json();
         setActionMessage(<div className="alert alert-danger">Your order with id={orderId} was cancelled.</div>);
         setDisabledButtons({"cancelButton": true, "matchButton": true, "acceptButton": true, "rejectButton": true});
-    console.log(`Order was cancelled: `, resData);
     }
 };
 
@@ -34,11 +30,9 @@ const cancelOrderButton = (orderId, user, setActionMessage, disabledButtons, set
 }
 
 async function pairOrder(orderId, user, setMatchedOrder, disabledButtons, setDisabledButtons){
-    console.log("pairOrder:what ", orderId, user);
     const res = await user.findOrderMatches(orderId);
     if (res.status == 200){
         const resData = await res.json();
-        console.log("possible matches: ", resData);
         const {order, matchedOrder} = {...resData};
         setMatchedOrder(matchedOrder);
         let disabledButtonsUpdated = {...disabledButtons};
@@ -47,7 +41,6 @@ async function pairOrder(orderId, user, setMatchedOrder, disabledButtons, setDis
         setDisabledButtons(disabledButtonsUpdated);
     }else if( res.status == 400){
         const resData = await res.json();
-        console.log("max rejects reached: ", resData);
     }
     return
 }
@@ -66,7 +59,6 @@ const pairOrderButton = (orderId, user, setMatchedOrder, disabledButtons, setDis
 }
 
 async function acceptOrder(orderId, user, matchedOrder, setActionMessage, disabledButtons, setDisabledButtons){
-    console.log("accepting order");
     const orderBody = {status: 1, details: {accepted: true, userId: matchedOrder.userId.id, orderId: matchedOrder.id }};
     const res = await user.updateUserOrder(orderId, orderBody);
     if (res.status == 200){
@@ -94,11 +86,9 @@ const acceptOrderButton = (orderId, user, matchedOrder, setActionMessage, disabl
 }
 
 async function rejectOrder(orderId, user, matchedOrder, setActionMessage, disabledButtons, setDisabledButtons){
-    console.log("rejecting order", matchedOrder.id);
     
     const orderBody = {rejects: [matchedOrder.id]};
     const res = await user.updateUserOrder(orderId, orderBody);
-    console.log("rejected: ", res);
     if (res.status == 200){
         const resData = await res.json();
         setActionMessage(<div className="alert alert-warning">id={matchedOrder.id} has been added to your rejected matches</div>);
@@ -110,7 +100,6 @@ async function rejectOrder(orderId, user, matchedOrder, setActionMessage, disabl
         setDisabledButtons(disabledButtonsUpdated);
     }else if (res.status == 400){
         const resData = await res.json();
-        console.log("max reject error: ", resData);
         setActionMessage(<div className="alert alert-warning">You can at most reject three matched orders</div>);
         let disabledButtonsUpdated = {...disabledButtons};
         disabledButtonsUpdated.matchButton = true;
@@ -164,9 +153,6 @@ function ManageOrderPage(){
     const {user, tokens} = readUserInfoFromStorage();
     const me = new User(user, tokens);
     const orderId = router.query.id;
-    const myOrder = {...router.query};
-    // const router = useRouter();
-    // const token = router.query.token;
     const [myOrderTable, setMyOrderTable] = useState('');
     const [matchOrderTable, setMatchOrderTable] = useState('');
     const [matchedOrder, setMatchedOrder] = useState('');
@@ -182,14 +168,31 @@ function ManageOrderPage(){
     ];
 
     useEffect(async()=>{
-        setMyOrderTable(await getOrderTable(myOrder, "manageTable", manageButtons ));
+        if (orderId){
+            //if orderId is defined get the order
+            const myOrderRes = await me.getUserOrder(orderId);
+            if (myOrderRes.status === 200){
+                const myOrder = await myOrderRes.json();
+                if (myOrder.status === 0){
+                    setMyOrderTable(await getOrderTable(myOrder, "manageTable", manageButtons ));
+                }
+                else{
+                    setMyOrderTable(<p>Order has already been cancelled/accepted/rejected. Nothing to manage!</p>);
+                }
+            }else{
+                const error = await myOrderRes.json();
+                setMyOrderTable(<p className="alert alert-danger">{error.message}</p>);
+            }
+        }
+         
         if (matchedOrder !== null){
             setMatchOrderTable(await getOrderTable(matchedOrder, "acceptRejectTable", acceptRejectButtons));
         }else if (matchedOrder === null){
             setMatchOrderTable(<p>No matches found at this time. Try again later!</p>);
         }
     },
-    [matchedOrder, actionMessage, disabledButtons]);
+    [matchedOrder, actionMessage, disabledButtons, orderId]);
+    // [matchOrderTable, actionMessage, disabledButtons, orderId]);
 
 
     return(

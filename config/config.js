@@ -7,6 +7,7 @@ export const be ={
         forgotPassword: protocol+serverip+"/v1/auth/forgot-password",
         login: protocol+serverip+"/v1/auth/login",
         logout: protocol+serverip+"/v1/auth/logout",
+        refresh: protocol+serverip+"/v1/auth/refresh-tokens",
         register: protocol+serverip+"/v1/auth/register",
         resetPassword: protocol+serverip+"/v1/auth/reset-password?token=tokenValue",
         sendVerificationEmail: protocol+serverip+"/v1/auth/send-verification-email",
