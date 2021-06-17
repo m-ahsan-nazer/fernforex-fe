@@ -27,3 +27,7 @@ export const be ={
         matches: protocol+serverip+"/v1/users/orders/matches/userId/orderId",
     }
 }
+
+export const siteTitle = "FernForex";
+export const titleTemplate = "%s | " + siteTitle;
+export const siteUrl = protocol+serverip;
