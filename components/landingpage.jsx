@@ -4,17 +4,34 @@ import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import NavBar from './navbar';
 import Footer from'./footer';
-import { titleTemplate, siteUrl } from '../config/config';
+import { titleTemplate, siteUrl, siteTitle } from '../config/config';
 import styles from '/styles/Home.module.css'
 
+const pageTitle = "Peer-to-Peer Currency Exchange";
+const description = "We facilitate direct currency exchange between people by removing the middleman---foreign exchange dealers.";
+
 const landingPageSeo = <NextSeo 
-  title="Peer-to-Peer Currency Exchange"
+  title={pageTitle}
   titleTemplate={titleTemplate}
-  description="We facilitate direct currency exchange between people by removing the 
-  middleman, foreign exchange dealers."
+  description={description}
   canonical={siteUrl}
+  openGraph={{
+      type: 'website',
+      url: {siteUrl},
+      title: {pageTitle} + " | " + {siteTitle},
+      description: {description},
+  }}
   />
 
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "FinancialProduct",
+    "name": "foreign currency",
+    "alternateName": "Foreign exchange",
+    "feesAndCommissionsSpecification": "Zero fees, zero commission, set your own currency exchange rate",
+    "description": "Exchange currency with a peer and skip the foreign exchange dealer",
+    "broker": "FernForex, peer-to-peer currency exchange facilitator",
+  }
 export default function LandingPage() {
   return (
       <>
@@ -26,6 +43,8 @@ export default function LandingPage() {
       {landingPageSeo}
     <NavBar/>
           <div className="jumbotron container-fluid  bg-light text-center">
+          <script type="application/ld+json" 
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}/>
               <h1 className="display-4">
                 Exchange currency with a peer through <span className="text-primary d-block"> FernForex</span>
               </h1>
